@@ -1,0 +1,160 @@
+body {
+  background-color: #F9FAFB
+}
+
+.parent-container {
+  padding: 0px;
+}
+
+.filters {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  min-width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.table th {
+  padding: 12px 15px;
+  text-align: left;
+  color: #6B7280;
+}
+
+.table tbody tr {
+  background-color: white;
+}
+
+.table tbody td {
+  padding: 12px 15px;
+}
+
+.user-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E0E7FF;
+}
+
+.user-name-and-id {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-id {
+  color: #6B7280;
+  font-size: 14px;
+}
+
+.user-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.user-phone {
+  font-size: 14px;
+  color: #374151;
+}
+
+.user-role-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+}
+
+.user-role-badge.admin {
+  color: rgb(49, 99, 207);
+  background-color: #c3d7f8;
+}
+
+.user-role-badge.usuario {
+  color: #166534;
+  background-color: #DCFCE7;
+}
+
+.user-role-badge.personal {
+  background-color: #f3bd5f;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-button {
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 50%;
+  padding: 6px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-button:hover {
+  background-color: #c8d3fa;
+}
+
+.delete-button:hover {
+  background-color: #f7c4c4;
+}
+
+.edit-icon {
+  color: #4F46E5;
+}
+
+.delete-icon {
+  color: #EF4444;
+}
+
+@media screen and (min-width: 600px) {
+  .parent-container {
+    padding: 20px;
+  }
+
+  .top-bar-action-text {
+    display: block;
+  }
+
+  .filters {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filter-item {
+    min-width: 49%;
+    max-width: 49%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .filter-item {
+    min-width: 24%;
+    max-width: 24%;
+  }
+}
