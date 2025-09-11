@@ -24,7 +24,7 @@ public class UserService {
         );
     }
 
-    public Iterable<UserPreview> getUsers() {
+    public Iterable<UserPreview> getUsersPreviews() {
         return List.of(
                 new UserPreview(
                     "23490",

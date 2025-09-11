@@ -1,18 +1,18 @@
 import { UserFactory } from "../factories/UserFactory";
-import type { User } from "../models/User";
+import type { UserPreview } from "../models/UserPreview";
 
 interface UserClient {
-    getUsers(): string;
+    getUsersPreviews(): string;
 }
 
 export interface UserService {
-    getUsers(): Promise<User[]>;
+    getUsersPreviews(): Promise<UserPreview[]>;
 }
 
 class DevelopmentUserService implements UserService {
-    async getUsers(): Promise<User[]> {
+    async getUsersPreviews(): Promise<UserPreview[]> {
         await new Promise(resolve => setTimeout(resolve, 3000));
-        return UserFactory.createUsers(25);
+        return UserFactory.createUsersPreviews(25);
     }
 }
 
@@ -29,9 +29,9 @@ class ProductionUserService implements UserService {
         this.userClient = window.userClient;
     }
 
-    async getUsers(): Promise<User[]> {
+    async getUsersPreviews(): Promise<UserPreview[]> {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        return JSON.parse(this.userClient.getUsers()) as User[];
+        return JSON.parse(this.userClient.getUsersPreviews()) as UserPreview[];
     }
 
 }

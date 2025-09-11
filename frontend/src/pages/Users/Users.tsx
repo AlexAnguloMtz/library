@@ -16,7 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Skeleton } from '@mui/material';
-import type { User } from '../../models/User';
+import type { UserPreview } from '../../models/UserPreview';
 import { userService } from '../../services/UserService';
 import { DashboardModuleTopBar } from '../../components/DashboardModuleTopBar/DashboardModuleTopBar';
 
@@ -26,7 +26,7 @@ type UsersState =
   | { status: 'idle' }
   | { status: 'loading' }
   | { status: 'error'; error: string }
-  | { status: 'success'; users: User[] };
+  | { status: 'success'; users: UserPreview[] };
 
 const Users: React.FC = () => {
   const [filters, setFilters] = useState({
@@ -45,10 +45,9 @@ const Users: React.FC = () => {
     const fetchUsers = async () => {
       setUsersState({ status: 'loading' });
       try {
-        const users = await userService.getUsers();
+        const users = await userService.getUsersPreviews();
         setUsersState({ status: 'success', users });
       } catch (error: any) {
-        console.log("Error fetching users:", JSON.stringify(error));
         setUsersState({ status: 'error', error: error.message || 'Unknown error' });
         setErrorOpen(true);
       }

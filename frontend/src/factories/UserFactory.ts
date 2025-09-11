@@ -1,15 +1,15 @@
-import type { User } from "../models/User";
+import type { UserPreview } from "../models/UserPreview";
 
 export class UserFactory {
-    static createUsers(amount: number): User[] {
-        const users: User[] = [];
+    static createUsersPreviews(amount: number): UserPreview[] {
+        const users: UserPreview[] = [];
         for (let i = 0; i < amount; i++) {
-            users.push(this.createUser());
+            users.push(this.createUserPreview());
         }
         return users;
     }
 
-    private static createUser(): User {
+    private static createUserPreview(): UserPreview {
         const id = this.randomId();
         return {
             id,

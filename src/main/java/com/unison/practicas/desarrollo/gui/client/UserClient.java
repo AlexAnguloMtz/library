@@ -14,8 +14,8 @@ public class UserClient {
         this.userService = userService;
     }
 
-    public String getUsers() throws JsonProcessingException {
-        return objectMapper.writeValueAsString(userService.getUsers());
+    public String getUsersPreviews() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(userService.getUsersPreviews());
     }
 
 }
