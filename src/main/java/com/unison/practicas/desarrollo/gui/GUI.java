@@ -11,11 +11,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class GUI extends Application {
 
-    private static ConfigurableApplicationContext springContext;
-
     @Override
     public void start(Stage stage) throws Exception {
-        springContext = App.getContext();
+        ConfigurableApplicationContext springContext = App.getContext();
 
         ClientsContainer clientsContainer = springContext.getBean(ClientsContainer.class);
 
