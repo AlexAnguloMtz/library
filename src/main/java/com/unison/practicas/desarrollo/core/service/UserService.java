@@ -1,6 +1,7 @@
 package com.unison.practicas.desarrollo.core.service;
 
 import com.unison.practicas.desarrollo.core.dto.UserPreview;
+import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+@Service
 public class UserService {
 
     private final DateFormat dateFormat;
