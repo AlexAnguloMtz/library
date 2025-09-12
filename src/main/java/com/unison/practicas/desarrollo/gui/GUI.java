@@ -23,7 +23,7 @@ public class GUI extends Application {
 
         webViewAdapter.load("/templates/index.html");
 
-        webViewAdapter.setWindowMember("userClient", clientsContainer.getUserClient());
+        setDataClients(webViewAdapter, clientsContainer);
 
         StackPane root = new StackPane(webViewAdapter.getWebView());
         Scene scene = new Scene(root);
@@ -32,6 +32,10 @@ public class GUI extends Application {
         setWindowDetails(stage);
 
         stage.show();
+    }
+
+    private void setDataClients(WebViewAdapter webViewAdapter, ClientsContainer clientsContainer) {
+        webViewAdapter.setWindowMember("userClient", clientsContainer.getUserClient());
     }
 
     private void setWindowDetails(Stage stage) {
