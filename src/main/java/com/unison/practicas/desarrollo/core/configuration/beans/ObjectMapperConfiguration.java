@@ -1,4 +1,4 @@
-package com.unison.practicas.desarrollo.core.configuration;
+package com.unison.practicas.desarrollo.core.configuration.beans;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;

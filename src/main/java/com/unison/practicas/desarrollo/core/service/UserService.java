@@ -1,21 +1,25 @@
 package com.unison.practicas.desarrollo.core.service;
 
 import com.unison.practicas.desarrollo.core.dto.UserPreview;
+import com.unison.practicas.desarrollo.core.model.User;
+import com.unison.practicas.desarrollo.core.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
     private final DateFormat dateFormat;
 
-    public UserService() {
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.dateFormat = createDateFormat();
     }
 
@@ -27,34 +31,21 @@ public class UserService {
     }
 
     public Iterable<UserPreview> getUsersPreviews() {
-        return List.of(
-                new UserPreview(
-                    "23490",
-                   "Miguel Angel",
-                   "miguel@sample.com",
-                   "+52 234 142 4325",
-                   "Admin",
-                        dateFormat.format(Date.from(Instant.parse("2024-10-10T00:00:00Z"))),
-        "10"
-                ),
-                new UserPreview(
-                   "4238",
-                   "Daniela Aguirre",
-                   "daniela@sample.com",
-                   "+52 953 203 4902",
-                   "Usuario",
-                        dateFormat.format(Date.from(Instant.parse("2025-05-04T00:00:00Z"))),
-                   "4"
-                ),
-                new UserPreview(
-                   "23487",
-                   "Luisa Armendariz",
-                   "luisa@sample.com",
-                   "+52 492 593 2912",
-                   "Personal",
-                        dateFormat.format(Date.from(Instant.parse("2025-11-19T00:00:00Z"))),
-                   "19"
-                )
+        Collection<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::toUserPreview)
+                .toList();
+    }
+
+    private UserPreview toUserPreview(User user) {
+        return new UserPreview(
+                user.getId().toString(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                new ArrayList<>(user.getRoles()).get(0).getName(),
+                dateFormat.format(Date.from(user.getCreatedAt())),
+                "1"
         );
     }
 

@@ -12,6 +12,7 @@ public class App {
 
     public static void main( String[] args ) {
         context = SpringApplication.run(App.class);
+
         GUI.launch(GUI.class, args);
     }
 
