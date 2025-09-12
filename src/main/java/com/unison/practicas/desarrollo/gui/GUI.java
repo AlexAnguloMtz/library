@@ -7,13 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ConfigurableApplicationContext springContext = App.getContext();
+        ConfigurableApplicationContext springContext = SpringApplication.run(App.class);
 
         ClientsContainer clientsContainer = springContext.getBean(ClientsContainer.class);
 

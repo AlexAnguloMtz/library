@@ -45,7 +45,7 @@ public class UserFactory {
         user.setFirstName(faker.name().firstName());
         user.setLastName(faker.name().lastName());
         user.setPhoneNumber(faker.phoneNumber().cellPhone());
-        user.setEmail(faker.internet().emailAddress());
+        user.setEmail(seed + "_" + faker.internet().emailAddress());
         user.setPasswordHash(faker.internet().password(8, 16));
         user.setRoles(Set.of(role));
         user.setCreatedAt(now);
