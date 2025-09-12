@@ -1,0 +1,12 @@
+CREATE TABLE book(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL UNIQUE,
+    published_year INT NOT NULL,
+    isbn VARCHAR(17) NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT check_published_year
+        CHECK (published_year BETWEEN -3000 AND EXTRACT(YEAR FROM CURRENT_DATE)::INT),
+    CONSTRAINT check_isbn
+        CHECK (isbn ~ '^[0-9-]+$' AND char_length(isbn) BETWEEN 10 AND 17)
+);

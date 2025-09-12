@@ -5,14 +5,13 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "app_role")
-public class Role {
+public class BookCopy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String slug;
+    private Integer bookId;
+    private Instant addedAt;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -20,12 +19,12 @@ public class Role {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public String getSlug() {
-        return slug;
+    public Instant getAddedAt() {
+        return addedAt;
     }
 
     public Instant getCreatedAt() {
@@ -40,12 +39,12 @@ public class Role {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setAddedAt(Instant addedAt) {
+        this.addedAt = addedAt;
     }
 
     public void setCreatedAt(Instant createdAt) {
@@ -59,16 +58,24 @@ public class Role {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Role role = (Role) o;
-
-        return id != null && id.equals(role.id);
+        if (!(o instanceof BookCopy bookCopy)) return false;
+        return id != null && id.equals(bookCopy.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "BookCopy{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", addedAt=" + addedAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 
     @PrePersist
@@ -82,17 +89,5 @@ public class Role {
     public void preUpdate() {
         updatedAt = Instant.now();
     }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", slug='" + slug + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
-
 }
+
