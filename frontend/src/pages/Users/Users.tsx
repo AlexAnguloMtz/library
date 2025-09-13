@@ -19,8 +19,29 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Skeleton } from '@mu
 import type { UserPreview } from '../../models/UserPreview';
 import { userService } from '../../services/UserService';
 import { DashboardModuleTopBar } from '../../components/DashboardModuleTopBar/DashboardModuleTopBar';
+import type { UserPreviewQuery } from '../../models/UserPreviewQuery';
+import type { PaginationRequest } from '../../models/PaginationRequest';
+import { useDebounce } from '../../hooks/useDebounce';
+import { SortableColumnHeader } from '../../components/SortableColumnHeader/SortableColumnHeader';
+import type { SortRequest } from '../../models/SortRequest';
 
 const loanOptions = Array.from({ length: 20 }, (_, i) => i + 1);
+
+type Filters = {
+  search: string;
+  role: string;
+  membershipMinDate: Dayjs | null;
+  membershipMaxDate: Dayjs | null;
+  minLoans: string;
+  maxLoans: string;
+};
+
+type SortableColumn = 'name' | 'contact' | 'role' | 'memberSince' | 'activeLoans';
+
+type PaginationState = {
+  sort?: SortableColumn;
+  order?: 'asc' | 'desc';
+};
 
 type UsersState =
   | { status: 'idle' }
@@ -29,23 +50,31 @@ type UsersState =
   | { status: 'success'; users: UserPreview[] };
 
 const Users: React.FC = () => {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     search: '',
     role: '',
-    membershipMinDate: null as Dayjs | null,
-    membershipMaxDate: null as Dayjs | null,
+    membershipMinDate: null,
+    membershipMaxDate: null,
     minLoans: '',
     maxLoans: ''
   });
 
+  const [paginationState, setPaginationState] = useState<PaginationState>({
+    sort: undefined,
+    order: undefined
+  });
+
   const [usersState, setUsersState] = useState<UsersState>({ status: 'idle' });
+
   const [errorOpen, setErrorOpen] = useState(false);
+
+  const debouncedSearch = useDebounce(filters.search, 500);
 
   useEffect(() => {
     const fetchUsers = async () => {
       setUsersState({ status: 'loading' });
       try {
-        const users = await userService.getUsersPreviews();
+        const users = await userService.getUsersPreviews(toQuery(filters), pagination(paginationState));
         setUsersState({ status: 'success', users });
       } catch (error: any) {
         setUsersState({ status: 'error', error: error.message || 'Unknown error' });
@@ -54,13 +83,82 @@ const Users: React.FC = () => {
     };
 
     fetchUsers();
-  }, [filters]);
+  }, [debouncedSearch, filters.role, filters.membershipMinDate, filters.membershipMaxDate, filters.minLoans, filters.maxLoans, paginationState]);
+
+  const toQuery = (filters: Filters): UserPreviewQuery => {
+    return {
+      search: filters.search,
+      memberSinceMin: filters.membershipMinDate?.toDate(),
+      memberSinceMax: filters.membershipMaxDate?.toDate(),
+      role: filters.role ? [filters.role] : undefined,
+      activeBookLoansMin: filters.minLoans ? parseInt(filters.minLoans, 10) : undefined,
+      activeBookLoansMax: filters.maxLoans ? parseInt(filters.maxLoans, 10) : undefined,
+    };
+  }
+
+  const pagination = (paginationState: PaginationState): PaginationRequest => {
+    const sorts = mapSort(paginationState);
+    return {
+      sorts: sorts,
+      page: 0,
+      size: 20
+    };
+  }
+
+  const mapSort = (paginationState: PaginationState): SortRequest[] => {
+    if (paginationState.sort === 'name') {
+      return [
+        { sort: 'lastName', order: paginationState.order },
+        { sort: 'firstName', order: paginationState.order }
+      ];
+    }
+
+    if (paginationState.sort === 'contact') {
+      return [
+        { sort: 'email', order: paginationState.order },
+        { sort: 'phoneNumber', order: paginationState.order }
+      ];
+    }
+
+    if (paginationState.sort === 'role') {
+      return [{ sort: 'role', order: paginationState.order }];
+    }
+
+    if (paginationState.sort === 'memberSince') {
+      return [{ sort: 'createdAt', order: paginationState.order }];
+    }
+
+    if (paginationState.sort === 'activeLoans') {
+      return [{ sort: 'activeLoans', order: paginationState.order }];
+    }
+
+    return [];
+  }
 
   const handleFilterChange = (field: keyof typeof filters, value: any) => {
     setFilters(prev => ({ ...prev, [field]: value }));
   };
 
   const closeError = (_: any) => setErrorOpen(false);
+
+  const nextPagination = (column: SortableColumn): PaginationState => {
+    const { sort, order } = paginationState;
+
+    if (sort !== column) {
+      return { sort: column, order: 'asc' };
+    }
+
+    if (order === 'asc') {
+      return { sort: column, order: 'desc' };
+    }
+
+    if (order === 'desc') {
+      return { sort: undefined, order: undefined };
+    }
+
+    return { sort: column, order: 'asc' };
+  };
+
 
   return (
     <div className='parent-container'>
@@ -102,9 +200,9 @@ const Users: React.FC = () => {
               label="Rol"
             >
               <MenuItem value="">Cualquiera</MenuItem>
-              <MenuItem value="opcion1">Administrador</MenuItem>
-              <MenuItem value="opcion2">Usuario</MenuItem>
-              <MenuItem value="opcion3">Personal</MenuItem>
+              <MenuItem value="admin">Administrador</MenuItem>
+              <MenuItem value="user">Usuario</MenuItem>
+              <MenuItem value="staff">Personal</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -174,12 +272,40 @@ const Users: React.FC = () => {
           <table className='table'>
             <thead>
               <tr>
-                <th>Usuario</th>
-                <th>Contacto</th>
-                <th>Rol</th>
-                <th>Miembro desde</th>
-                <th>Préstamos activos</th>
-                <th>Acciones</th>
+                <SortableColumnHeader
+                  title='Usuario'
+                  active={paginationState.sort === 'name'}
+                  order={paginationState.order}
+                  onClick={() => { setPaginationState(nextPagination("name")) }}
+                />
+                <SortableColumnHeader
+                  title='Contacto'
+                  active={paginationState.sort === 'contact'}
+                  order={paginationState.order}
+                  onClick={() => { setPaginationState(nextPagination("contact")) }}
+                />
+                <SortableColumnHeader
+                  title='Rol'
+                  active={paginationState.sort === 'role'}
+                  order={paginationState.order}
+                  onClick={() => { setPaginationState(nextPagination("role")) }}
+                />
+                <SortableColumnHeader
+                  title='Miembro desde'
+                  active={paginationState.sort === 'memberSince'}
+                  order={paginationState.order}
+                  onClick={() => { setPaginationState(nextPagination("memberSince")) }}
+                />
+                <SortableColumnHeader
+                  title='Préstamos activos'
+                  active={paginationState.sort === 'activeLoans'}
+                  order={paginationState.order}
+                  onClick={() => { setPaginationState(nextPagination("activeLoans")) }}
+                />
+                <SortableColumnHeader
+                  title='Acciones'
+                  nonSortable={true}
+                />
               </tr>
             </thead>
             <tbody>
@@ -213,7 +339,9 @@ const Users: React.FC = () => {
                     </div>
                   </td>
                   <td>
-                    <span className={`user-role-badge ${user.role.toLowerCase()}`}>{user.role}</span>
+                    {user.roles.map(role => (
+                      <span className={`user-role-badge ${role.slug}`}>{role.name}</span>
+                    ))}
                   </td>
                   <td>{user.memberSince}</td>
                   <td>{user.activeLoans}</td>

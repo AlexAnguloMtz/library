@@ -5,15 +5,13 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-public class BookCopy {
+public class BookCopy extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer bookId;
     private Instant addedAt;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     public Integer getId() {
         return id;
@@ -27,14 +25,6 @@ public class BookCopy {
         return addedAt;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -45,14 +35,6 @@ public class BookCopy {
 
     public void setAddedAt(Instant addedAt) {
         this.addedAt = addedAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -73,21 +55,8 @@ public class BookCopy {
                 "id=" + id +
                 ", bookId=" + bookId +
                 ", addedAt=" + addedAt +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
-    @PrePersist
-    public void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
-    }
 }
 

@@ -39,7 +39,10 @@ public class UserFactory {
     }
 
     private User createUser(int seed, Role role) {
-        var now = Instant.now();
+        var timeStart = Instant.parse("1990-01-01T00:00:00Z");
+        var timeEnd = Instant.parse("2025-01-01T00:00:00Z");
+
+        var time = TimeUtils.randomInstantBetween(timeStart, timeEnd);
 
         var user = new User();
         user.setFirstName(faker.name().firstName());
@@ -48,8 +51,8 @@ public class UserFactory {
         user.setEmail(seed + "_" + faker.internet().emailAddress());
         user.setPasswordHash(faker.internet().password(8, 16));
         user.setRoles(Set.of(role));
-        user.setCreatedAt(now);
-        user.setUpdatedAt(now);
+        user.setCreatedAt(time);
+        user.setUpdatedAt(time);
 
         return user;
     }

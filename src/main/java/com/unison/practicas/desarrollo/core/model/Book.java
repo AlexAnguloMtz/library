@@ -1,11 +1,10 @@
 package com.unison.practicas.desarrollo.core.model;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 import java.util.*;
 
 @Entity
-public class Book {
+public class Book extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +12,6 @@ public class Book {
     private String title;
     private Integer publishedYear;
     private String isbn;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,14 +46,6 @@ public class Book {
         return isbn;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
     public List<BookAuthor> getAuthors() {
         return authors;
     }
@@ -81,14 +70,6 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,20 +89,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", publishedYear=" + publishedYear +
                 ", isbn='" + isbn + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
-    @PrePersist
-    public void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
-    }
 }

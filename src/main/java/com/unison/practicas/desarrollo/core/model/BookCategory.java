@@ -5,14 +5,12 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-public class BookCategory {
+public class BookCategory extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     public Long getId() {
         return id;
@@ -28,22 +26,6 @@ public class BookCategory {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -63,20 +45,7 @@ public class BookCategory {
         return "BookCategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
-    @PrePersist
-    public void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
-    }
 }

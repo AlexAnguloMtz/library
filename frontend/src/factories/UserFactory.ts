@@ -1,3 +1,4 @@
+import type { RoleDTO } from "../models/RoleDTO";
 import type { UserPreview } from "../models/UserPreview";
 
 export class UserFactory {
@@ -15,7 +16,7 @@ export class UserFactory {
             id,
             name: `User ${id}`,
             email: `user_${id}_@example.com`,
-            role: this.makeRole(),
+            roles: [this.makeRole()],
             activeLoans: Math.floor(Math.random() * 20).toString(),
             memberSince: new Date().toISOString().split('T')[0],
             phone: this.makePhoneNumber()
@@ -33,8 +34,12 @@ export class UserFactory {
         return `${areaCode}-${centralOfficeCode}-${lineNumber}`;
     }
 
-    private static makeRole(): string {
-        const roles = ['Admin', 'Usuario', 'Personal'];
+    private static makeRole(): RoleDTO {
+        const roles = [
+            { id: "1", name: 'Admin', slug: "admin", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            { id: "2", name: 'Usuario', slug: "user", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            { id: "3", name: 'Personal', slug: "staff", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
+        ];
         return roles[Math.floor(Math.random() * roles.length)];
     }
 }

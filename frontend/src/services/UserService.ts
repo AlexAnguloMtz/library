@@ -1,16 +1,18 @@
 import { UserFactory } from "../factories/UserFactory";
+import type { PaginationRequest } from "../models/PaginationRequest";
 import type { UserPreview } from "../models/UserPreview";
+import type { UserPreviewQuery } from "../models/UserPreviewQuery";
 
 interface UserClient {
-    getUsersPreviews(): string;
+    getUsersPreviews(query: string, pagination: string): string;
 }
 
 export interface UserService {
-    getUsersPreviews(): Promise<UserPreview[]>;
+    getUsersPreviews(query: UserPreviewQuery, pagination: PaginationRequest): Promise<UserPreview[]>;
 }
 
 class DevelopmentUserService implements UserService {
-    async getUsersPreviews(): Promise<UserPreview[]> {
+    async getUsersPreviews(_: UserPreviewQuery, __: PaginationRequest): Promise<UserPreview[]> {
         await new Promise(resolve => setTimeout(resolve, 3000));
         return UserFactory.createUsersPreviews(25);
     }
@@ -29,9 +31,13 @@ class ProductionUserService implements UserService {
         this.userClient = window.userClient;
     }
 
-    async getUsersPreviews(): Promise<UserPreview[]> {
+    async getUsersPreviews(query: UserPreviewQuery, pagination: PaginationRequest): Promise<UserPreview[]> {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        return JSON.parse(this.userClient.getUsersPreviews()) as UserPreview[];
+
+        const queryJson = JSON.stringify(query);
+        const paginationJson = JSON.stringify(pagination);
+
+        return JSON.parse(this.userClient.getUsersPreviews(queryJson, paginationJson)) as UserPreview[];
     }
 
 }

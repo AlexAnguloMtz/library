@@ -11,10 +11,13 @@ public class BookLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer copyId;
-    private Integer userId;
     private Instant loanDate;
     private Instant dueDate;
     private Instant returnDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Integer getId() {
         return id;
@@ -24,9 +27,6 @@ public class BookLoan {
         return copyId;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
 
     public Instant getLoanDate() {
         return loanDate;
@@ -46,10 +46,6 @@ public class BookLoan {
 
     public void setCopyId(Integer copyId) {
         this.copyId = copyId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public void setLoanDate(Instant loanDate) {
@@ -81,11 +77,14 @@ public class BookLoan {
         return "BookLoan{" +
                 "id=" + id +
                 ", copyId=" + copyId +
-                ", userId=" + userId +
                 ", loanDate=" + loanDate +
                 ", dueDate=" + dueDate +
                 ", returnDate=" + returnDate +
                 '}';
     }
-}
 
+    public boolean isActiveLoan() {
+        return returnDate == null;
+    }
+
+}

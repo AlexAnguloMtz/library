@@ -25,12 +25,6 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.table th {
-  padding: 12px 15px;
-  text-align: left;
-  color: #6B7280;
-}
-
 .table tbody tr {
   background-color: white;
 }
@@ -90,12 +84,12 @@ body {
   background-color: #c3d7f8;
 }
 
-.user-role-badge.usuario {
+.user-role-badge.user {
   color: #166534;
   background-color: #DCFCE7;
 }
 
-.user-role-badge.personal {
+.user-role-badge.staff {
   background-color: #f3bd5f;
 }
 

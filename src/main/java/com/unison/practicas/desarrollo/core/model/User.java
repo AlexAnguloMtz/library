@@ -1,14 +1,13 @@
 package com.unison.practicas.desarrollo.core.model;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
-public class User {
+public class User extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +16,7 @@ public class User {
     private String lastName;
     private String email;
     private String passwordHash;
-    private Instant createdAt;
     private String phoneNumber;
-    private Instant updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,16 +46,8 @@ public class User {
         return passwordHash;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
     }
 
     public Set<Role> getRoles() {
@@ -77,16 +66,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -99,10 +80,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getFullName() {
-        return "%s %s".formatted(firstName, lastName).trim();
     }
 
     @Override
@@ -127,23 +104,9 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", createdAt=" + createdAt +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", updatedAt=" + updatedAt +
                 ", roles=" + roles +
                 '}';
-    }
-
-    @PrePersist
-    public void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
     }
 
 }

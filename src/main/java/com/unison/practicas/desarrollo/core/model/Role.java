@@ -6,15 +6,13 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "app_role")
-public class Role {
+public class Role extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String slug;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     public Integer getId() {
         return id;
@@ -28,14 +26,6 @@ public class Role {
         return slug;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -46,14 +36,6 @@ public class Role {
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -71,26 +53,12 @@ public class Role {
         return Objects.hash(id);
     }
 
-    @PrePersist
-    public void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = Instant.now();
-    }
-
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", slug='" + slug + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
