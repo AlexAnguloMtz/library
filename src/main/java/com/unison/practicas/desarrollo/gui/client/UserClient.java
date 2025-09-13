@@ -2,7 +2,6 @@ package com.unison.practicas.desarrollo.gui.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unison.practicas.desarrollo.core.dto.UserPreview;
 import com.unison.practicas.desarrollo.core.util.PaginationRequest;
 import com.unison.practicas.desarrollo.core.dto.UserPreviewsQuery;
 import com.unison.practicas.desarrollo.core.service.UserService;
