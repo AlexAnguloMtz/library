@@ -157,7 +157,7 @@ public class UserService {
         // ---- Map results ----
         return result.stream().map(r -> new UserPreview(
                 r.get(APP_USER.ID).toString(),
-                r.get(APP_USER.LAST_NAME) + ", " + r.get(APP_USER.FIRST_NAME),
+                formatInvertedName(r.get(APP_USER.FIRST_NAME), r.get(APP_USER.LAST_NAME)),
                 r.get(APP_USER.EMAIL),
                 r.get(APP_USER.PHONE_NUMBER),
                 parseRolesJson(r.get("roles_json", String.class)),
@@ -205,7 +205,17 @@ public class UserService {
         return "desc".equalsIgnoreCase(sortReq.order()) ? field.desc() : field.asc();
     }
 
+    private String formatInvertedName(String firstName, String lastName) {
+        return "%s, %s".formatted(lastName, firstName);
+    }
+
     private DateTimeFormatter createDateTimeFormatter() {
-        return DateTimeFormatter.ofPattern("dd/MMM/yyyy", new Locale("es", "MX"));
+        return DateTimeFormatter.ofPattern(
+            "dd/MMM/yyyy",
+            new Locale.Builder()
+                .setLanguage("es")
+                .setRegion("MX")
+                .build()
+        );
     }
 }
