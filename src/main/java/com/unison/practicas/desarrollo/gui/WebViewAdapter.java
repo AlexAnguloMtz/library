@@ -23,10 +23,10 @@ public class WebViewAdapter {
         });
     }
 
-    public void load(String path) {
+    public void load(String path, String errorMessage) {
         URL url = getClass().getResource(path);
         if (url == null) {
-            throw new RuntimeException("Could not load resource %s".formatted(path));
+            throw new RuntimeException(errorMessage);
         }
         webView.getEngine().load(url.toExternalForm());
     }

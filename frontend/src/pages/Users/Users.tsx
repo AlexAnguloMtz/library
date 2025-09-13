@@ -269,13 +269,13 @@ const Users: React.FC = () => {
               id="min-loans-label"
               sx={dropdownLabelStyles}
             >
-              Préstamos activos (min)
+              Préstamos vigentes (min)
             </InputLabel>
             <Select
               labelId="min-loans-label"
               value={filters.minLoans}
               onChange={(e) => handleFilterChange('minLoans', e.target.value)}
-              label="Préstamos activos (mín)"
+              label="Préstamos vigentes (mín)"
               size='small'
 
             >
@@ -289,12 +289,12 @@ const Users: React.FC = () => {
 
         <div className='filter-item'>
           <FormControl fullWidth variant="outlined">
-            <InputLabel id="max-loans-label" sx={dropdownLabelStyles}>Préstamos activos (max)</InputLabel>
+            <InputLabel id="max-loans-label" sx={dropdownLabelStyles}>Préstamos vigentes (max)</InputLabel>
             <Select
               labelId="max-loans-label"
               value={filters.maxLoans}
               onChange={(e) => handleFilterChange('maxLoans', e.target.value)}
-              label="Préstamos activos (max)"
+              label="Préstamos vigentes (max)"
               size='small'
 
             >
@@ -343,7 +343,7 @@ const Users: React.FC = () => {
                   style={{ width: '22%' }}
                 />
                 <SortableColumnHeader
-                  title='Préstamos activos'
+                  title='Préstamos vigentes'
                   active={paginationState.sort === 'activeLoans'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("activeLoans")) }}

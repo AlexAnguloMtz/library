@@ -10,16 +10,22 @@ public class DevelopmentSeeder implements CommandLineRunner {
 
     private final UserSeeder userSeeder;
     private final AuthorsAndBooksSeeder authorsAndBooksSeeder;
+    private final BookCopySeeder bookCopySeeder;
+    private final BookLoanSeeder bookLoanSeeder;
 
-    protected DevelopmentSeeder(UserSeeder userSeeder, AuthorsAndBooksSeeder authorsAndBooksSeeder) {
+    protected DevelopmentSeeder(UserSeeder userSeeder, AuthorsAndBooksSeeder authorsAndBooksSeeder, BookCopySeeder bookCopySeeder, BookLoanSeeder bookLoanSeeder) {
         this.userSeeder = userSeeder;
         this.authorsAndBooksSeeder = authorsAndBooksSeeder;
+        this.bookCopySeeder = bookCopySeeder;
+        this.bookLoanSeeder = bookLoanSeeder;
     }
 
     @Override
     public void run(String... args) throws Exception {
         userSeeder.seed();
         authorsAndBooksSeeder.seed();
+        bookCopySeeder.seed();
+        bookLoanSeeder.seed();
     }
 
 }

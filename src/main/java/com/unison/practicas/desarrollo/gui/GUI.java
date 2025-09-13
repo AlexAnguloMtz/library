@@ -20,7 +20,10 @@ public class GUI extends Application {
 
         WebViewAdapter webViewAdapter = new WebViewAdapter(new WebView());
 
-        webViewAdapter.load("/templates/index.html");
+        webViewAdapter.load(
+                "/templates/index.html",
+                "No se encontró el archivo /resources/templates/index.html"
+        );
 
         setDataClients(webViewAdapter, clientsContainer);
 
