@@ -277,34 +277,40 @@ const Users: React.FC = () => {
                   active={paginationState.sort === 'name'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("name")) }}
+                  style={{ width: '20%' }}
                 />
                 <SortableColumnHeader
                   title='Contacto'
                   active={paginationState.sort === 'contact'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("contact")) }}
+                  style={{ width: '23%' }}
                 />
                 <SortableColumnHeader
                   title='Rol'
                   active={paginationState.sort === 'role'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("role")) }}
+                  style={{ width: '15%' }}
                 />
                 <SortableColumnHeader
                   title='Miembro desde'
                   active={paginationState.sort === 'memberSince'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("memberSince")) }}
+                  style={{ width: '22%' }}
                 />
                 <SortableColumnHeader
                   title='Préstamos activos'
                   active={paginationState.sort === 'activeLoans'}
                   order={paginationState.order}
                   onClick={() => { setPaginationState(nextPagination("activeLoans")) }}
+                  style={{ width: '10%' }}
                 />
                 <SortableColumnHeader
                   title='Acciones'
                   nonSortable={true}
+                  style={{ width: '10%' }}
                 />
               </tr>
             </thead>
