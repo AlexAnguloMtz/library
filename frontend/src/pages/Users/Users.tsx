@@ -27,6 +27,35 @@ import type { SortRequest } from '../../models/SortRequest';
 
 const loanOptions = Array.from({ length: 20 }, (_, i) => i + 1);
 
+const dropdownLabelStyles = {
+  transform: 'translate(14px, 9px) scale(1)',
+  '&.MuiInputLabel-shrink': {
+    transform: 'translate(14px, -6px) scale(0.75)',
+  },
+  fontSize: '1rem',
+};
+
+const datePickerslotProps: any = {
+  textField: {
+    fullWidth: true,
+    size: 'small',
+    sx: {
+      '& .MuiInputBase-root': {
+        paddingTop: '8px',
+        paddingBottom: '8px',
+        fontSize: '0.75rem',
+      },
+      '& .MuiInputLabel-root': {
+        fontSize: '1rem',
+        transform: 'translate(14px, 8px) scale(1)',
+        '&.MuiInputLabel-shrink': {
+          transform: 'translate(12px, -8px) scale(0.75)',
+        },
+      },
+    },
+  },
+}
+
 type Filters = {
   search: string;
   role: string;
@@ -179,6 +208,7 @@ const Users: React.FC = () => {
             placeholder='Nombre, email, teléfono...'
             variant="outlined"
             fullWidth
+            size='small'
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -192,12 +222,14 @@ const Users: React.FC = () => {
         {/* Rol */}
         <div className='filter-item'>
           <FormControl fullWidth variant="outlined">
-            <InputLabel id="role-label">Rol</InputLabel>
+            <InputLabel id="role-label" sx={dropdownLabelStyles}>Rol</InputLabel>
             <Select
               labelId="role-label"
               value={filters.role}
               onChange={(e) => handleFilterChange('role', e.target.value)}
               label="Rol"
+              size='small'
+
             >
               <MenuItem value="">Cualquiera</MenuItem>
               <MenuItem value="admin">Administrador</MenuItem>
@@ -214,7 +246,8 @@ const Users: React.FC = () => {
               label="Fecha membresía (mín)"
               value={filters.membershipMinDate}
               onChange={(v) => handleFilterChange('membershipMinDate', v)}
-              slotProps={{ textField: { fullWidth: true } }}
+              slotProps={datePickerslotProps}
+
             />
           </LocalizationProvider>
         </div>
@@ -224,7 +257,7 @@ const Users: React.FC = () => {
               label="Fecha membresía (max)"
               value={filters.membershipMaxDate}
               onChange={(v) => handleFilterChange('membershipMaxDate', v)}
-              slotProps={{ textField: { fullWidth: true } }}
+              slotProps={datePickerslotProps}
             />
           </LocalizationProvider>
         </div>
@@ -232,12 +265,19 @@ const Users: React.FC = () => {
         {/* Préstamos min-max */}
         <div className='filter-item'>
           <FormControl fullWidth variant="outlined">
-            <InputLabel id="min-loans-label">Préstamos activos (mín)</InputLabel>
+            <InputLabel
+              id="min-loans-label"
+              sx={dropdownLabelStyles}
+            >
+              Préstamos activos (min)
+            </InputLabel>
             <Select
               labelId="min-loans-label"
               value={filters.minLoans}
               onChange={(e) => handleFilterChange('minLoans', e.target.value)}
               label="Préstamos activos (mín)"
+              size='small'
+
             >
               <MenuItem value="">Cualquiera</MenuItem>
               {loanOptions.map((num) => (
@@ -249,12 +289,14 @@ const Users: React.FC = () => {
 
         <div className='filter-item'>
           <FormControl fullWidth variant="outlined">
-            <InputLabel id="max-loans-label">Préstamos activos (max)</InputLabel>
+            <InputLabel id="max-loans-label" sx={dropdownLabelStyles}>Préstamos activos (max)</InputLabel>
             <Select
               labelId="max-loans-label"
               value={filters.maxLoans}
               onChange={(e) => handleFilterChange('maxLoans', e.target.value)}
               label="Préstamos activos (max)"
+              size='small'
+
             >
               <MenuItem value="">Cualquiera</MenuItem>
               {loanOptions.map((num) => (

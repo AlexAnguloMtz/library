@@ -143,7 +143,7 @@ const DashboardLayout: React.FC = () => {
                     component="main"
                     sx={{
                         flexGrow: 1,
-                        p: 3,
+                        p: 1,
                         width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
                         ml: { md: `${drawerWidth}px` },
                     }}

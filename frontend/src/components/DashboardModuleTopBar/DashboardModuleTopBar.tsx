@@ -12,11 +12,15 @@ export const DashboardModuleTopBar = ({ title, onExportClick, onNewClick }: {
             <h1 className='dashboard-module-top-bar-title'>{title}</h1>
             <div className='dashboard-module-top-bar-actions'>
                 <Button onClick={onExportClick} className='dashboard-module-top-bar-action' type='secondary'>
-                    <Icon name={Icons.export} />
+                    <div className='dashboard-module-top-bar-action-icon-container'>
+                        <Icon name={Icons.export} />
+                    </div>
                     <span className='dashboard-module-top-bar-action-text'>Exportar</span>
                 </Button>
                 <Button onClick={onNewClick} className='dashboard-module-top-bar-action' type='primary'>
-                    <Icon name={Icons.add} />
+                    <div className='dashboard-module-top-bar-action-icon-container'>
+                        <Icon name={Icons.add} />
+                    </div>
                     <span className='dashboard-module-top-bar-action-text'>Nuevo</span>
                 </Button>
             </div>

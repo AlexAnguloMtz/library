@@ -5,6 +5,10 @@
     align-items: center;
 }
 
+.dashboard-module-top-bar-title {
+    font-size: 18px;
+}
+
 .dashboard-module-top-bar-actions {
     display: flex;
     align-items: center;
@@ -15,14 +19,23 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    padding: 4px 10px 4px 4px;
 }
 
 .dashboard-module-top-bar-action-text {
     display: none;
 }
 
+.dashboard-module-top-bar-action-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+}
+
 @media screen and (min-width: 600px) {
     .dashboard-module-top-bar-action-text {
         display: block;
+        font-size: 12px;
     }
 }
