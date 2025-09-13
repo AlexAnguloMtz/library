@@ -39,11 +39,11 @@ const DashboardLayout: React.FC = () => {
                 </IconButton>
             </Toolbar>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '30px 12px', color: 'white' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '20px 12px', color: 'white' }}>
+                <Icon name={Icons.book_open} />
                 <h3>
                     Sistema Biblioteca
                 </h3>
-                <Icon name={Icons.book_open} />
             </div>
 
             <div style={{ width: '96%', height: '1px', margin: '0px auto 8px auto', backgroundColor: '#D8BCE3' }}>
