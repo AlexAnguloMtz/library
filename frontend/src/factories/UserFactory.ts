@@ -14,7 +14,7 @@ export class UserFactory {
         const id = this.randomId();
         return {
             id,
-            name: `User ${id}`,
+            name: `Daniel Don Quijote De La Mancha ${id}`,
             email: `user_${id}_@example.com`,
             roles: [this.makeRole()],
             activeLoans: Math.floor(Math.random() * 20).toString(),

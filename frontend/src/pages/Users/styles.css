@@ -23,6 +23,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --cell-text-color: #303030;
 }
 
 .table tbody tr {
@@ -33,6 +34,11 @@ body {
   padding: 12px 15px;
 }
 
+.table td {
+  color: var(--cell-text-color);
+  font-size: 12px;
+}
+
 .user-info-cell {
   display: flex;
   align-items: center;
@@ -40,8 +46,8 @@ body {
 }
 
 .user-avatar-container {
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -57,7 +63,7 @@ body {
 
 .user-id {
   color: #6B7280;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .user-contact-info {
@@ -67,15 +73,15 @@ body {
 }
 
 .user-phone {
-  font-size: 14px;
-  color: #374151;
+  font-size: 12px;
+  color: #6B7280;
 }
 
 .user-role-badge {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 10px;
   color: white;
 }
 
@@ -102,7 +108,8 @@ body {
   cursor: pointer;
   background-color: transparent;
   border-radius: 50%;
-  padding: 6px;
+  width: 28px;
+  height: 28px;
   border: none;
   display: flex;
   justify-content: center;
@@ -119,10 +126,14 @@ body {
 
 .edit-icon {
   color: #4F46E5;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .delete-icon {
   color: #EF4444;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 @media screen and (min-width: 600px) {
