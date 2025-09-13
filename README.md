@@ -73,9 +73,8 @@ o con Maven Wrapper:
 #### Opción B: Usando IntelliJ IDEA
 
 1. Ve a `View > Tool Windows > Maven > Plugins > jooq-codegen > jooq-codegen:generate`.
-2. Configura la conexión a la base de datos.
-3. Ejecuta la generación.
-4. Las clases se crearán en la carpeta configurada (`target/generated-sources/jooq`).
+2. Ejecuta la generación.
+3. Las clases se crearán en la carpeta configurada (`target/generated-sources/jooq`).
 
 > **Importante:** Cada vez que cambies la estructura de la base de datos, **regenera jOOQ** antes de compilar.
 
