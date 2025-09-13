@@ -22,7 +22,7 @@ public class UserClient {
     public String getUsersPreviews(String queryJson, String paginationJson) throws JsonProcessingException {
         var query = objectMapper.readValue(queryJson, UserPreviewsQuery.class);
         var pagination = objectMapper.readValue(paginationJson, PaginationRequest.class);
-        Iterable<UserPreview> items = userService.getUsersPreviews(query, pagination);
+        var items = userService.getUsersPreviews(query, pagination);
         return objectMapper.writeValueAsString(items);
     }
 

@@ -47,13 +47,14 @@ public class UserService {
 
     public List<UserPreview> getUsersPreviews(UserPreviewsQuery query, PaginationRequest paginationRequest) {
 
-        // ---- Active loans subquery ----
-        Field<Integer> activeLoans = DSL.selectCount()
+        // ---- Active loans as a derived table ----
+        Table<?> loansAgg = DSL.select(BOOK_LOAN.USER_ID, DSL.count().as("active_loans"))
                 .from(BOOK_LOAN)
-                .where(BOOK_LOAN.USER_ID.eq(APP_USER.ID))
-                .and(BOOK_LOAN.RETURN_DATE.isNull())
-                .asField("active_loans");
+                .where(BOOK_LOAN.RETURN_DATE.isNull())
+                .groupBy(BOOK_LOAN.USER_ID)
+                .asTable("loansAgg");
 
+        Field<Integer> activeLoans = DSL.coalesce(loansAgg.field("active_loans", Integer.class), 0).as("active_loans");
 
         // Aggregate user roles as a json
         Field<JSON> rolesJson = DSL.jsonArrayAgg(
@@ -87,7 +88,8 @@ public class UserService {
                 )
                 .from(APP_USER)
                 .join(USER_ROLE).on(APP_USER.ID.eq(USER_ROLE.USER_ID))
-                .join(APP_ROLE).on(APP_ROLE.ID.eq(USER_ROLE.ROLE_ID));
+                .join(APP_ROLE).on(APP_ROLE.ID.eq(USER_ROLE.ROLE_ID))
+                .leftJoin(loansAgg).on(APP_USER.ID.eq(loansAgg.field("user_id", Integer.class)));
 
         // ---- Filters ----
         if (query.search() != null && !query.search().isBlank()) {
@@ -110,12 +112,14 @@ public class UserService {
             base.where(APP_USER.CREATED_AT.le(OffsetDateTime.from(query.memberSinceMax().atTime(23, 59, 59))));
         }
 
+        Field<Integer> loansAggActive = loansAgg.field("active_loans", Integer.class);
+
         if (query.activeBookLoansMin() != null) {
-            base.where(activeLoans.ge(query.activeBookLoansMin()));
+            base.where(DSL.coalesce(loansAggActive, 0).ge(query.activeBookLoansMin()));
         }
 
         if (query.activeBookLoansMax() != null) {
-            base.where(activeLoans.le(query.activeBookLoansMax()));
+            base.where(DSL.coalesce(loansAggActive, 0).le(query.activeBookLoansMax()));
         }
 
         // ---- Group by user for JSON aggregation ----
@@ -165,6 +169,7 @@ public class UserService {
                 String.valueOf(r.get(activeLoans))
         )).toList();
     }
+
 
     private List<RoleResponse> parseRolesJson(String rolesJson) {
         try {
