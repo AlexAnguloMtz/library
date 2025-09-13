@@ -99,8 +99,8 @@ Para poder desarrollar, la aplicación requiere que la variable de entorno del p
 ### Notas y recomendaciones
 
 
-- Desarrolla el frontend en el navegador de manera normal con `npm run dev` en el directorio `/frontend`. La app NO se conecta a la base de datos en este caso, lo que te permite desarrollar libremente.
+- Desarrolla el frontend en el navegador de manera normal con `npm run dev` en el directorio `/frontend`. La app **NO** se conecta ni tampoco necesita al código Java ni a la base de datos en este caso, lo que te permite desarrollar libremente.
 - Cada vez que quieras ver los cambios al frontend en la ventana de Java, ejecuta `./build-frontend.sh`.
 - Mantén **Docker Compose corriendo** mientras trabajas con la app.
-- Si necesitas hacer cambios en la estructura de la base de datos, evalúa si es mejor alterar un archivo en ./migrations ya existente, o si necesitas crear uno nuevo. Depende del caso y del tamaño de la modificación. 
-- Recuerda que para un cambio completo de la estructura de la base de datos debes correr las migraciones de nuevo en tu instancia de Postgres corriendo en Docker Compose y generar el código de jOOQ de nuevo.
+- Si necesitas hacer cambios en la estructura de la base de datos, evalúa si es mejor alterar un archivo en **./migrations** ya existente, o si necesitas crear uno nuevo. Depende del caso y del tamaño de la modificación. 
+- Recuerda que para un cambio completo de la estructura de la base de datos debes correr las migraciones de nuevo en tu instancia de **Postgres** corriendo en **Docker Compose** y generar el código de **jOOQ** de nuevo.
